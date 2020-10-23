@@ -1,60 +1,37 @@
 package com.mcb.creditfactory.external;
 
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
-
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.Month;
+
+import org.springframework.stereotype.Service;
+
+import com.mcb.creditfactory.dto.CollateralDto;
 
 @Service
-@Slf4j
 public class ExternalApproveService {
-    private static final LocalDate MIN_ASSESS_DATE = LocalDate.of(2017, Month.OCTOBER, 1);
-    private static final int MIN_CAR_YEAR = 2000;
-    private static final BigDecimal MIN_CAR_VALUE = BigDecimal.valueOf(1000000);
-    private static final int MIN_PLANE_YEAR = 1991;
-    private static final BigDecimal MIN_PLANE_VALUE = BigDecimal.valueOf(230000000);
+    public int approve(CollateralDto dto) {
+        Short year = dto.getYearOfIssue();
+        LocalDate date = LocalDate.now(); // исправить - Вытягивается из Last ASSESS
+        // Для автомобилей дата оценки не используется, поэтому всегда берем текущую
+        BigDecimal value = null; // исправить - Вытягивается из Last ASSESS
 
+        Short minYear = dto.getCollateralType().getMinYearOfIssue();
+        LocalDate minDate = dto.getCollateralType().getMinAssessedDate();
+        BigDecimal minValue = dto.getCollateralType().getMinAssessedValue();
 
-    public int approve(CollateralObject object) {
-        if (object.getDate() == null ||object.getYear() == null || object.getValue() == null || object.getType() == null) {
+        if (year == null || date == null || value == null || minYear == null || minDate == null
+                || minValue == null) {
             return -1;
         }
 
-        int code;
-        switch (object.getType()) {
-            case CAR: code = approveCar(object); break;
-            case AIRPLANE: code = approvePlane(object); break;
-            default: code = -100;
-        }
-
-        return code;
-    }
-
-    private int approveCar(CollateralObject object) {
-        if (object.getYear() < MIN_CAR_YEAR) {
+        if (year < minYear) {
             return -10;
         }
-        if (object.getDate().isBefore(MIN_ASSESS_DATE)) {
+        if (date.isBefore(minDate)) {
             return -11;
         }
-        if (object.getValue().compareTo(MIN_CAR_VALUE) < 0) {
+        if (value.compareTo(minValue) < 0) {
             return -12;
-        }
-
-        return 0;
-    }
-
-    private int approvePlane(CollateralObject object) {
-        if (object.getYear() < MIN_PLANE_YEAR) {
-            return -20;
-        }
-        if (object.getDate().isBefore(MIN_ASSESS_DATE)) {
-            return -21;
-        }
-        if (object.getValue().compareTo(MIN_PLANE_VALUE) < 0) {
-            return -22;
         }
 
         return 0;

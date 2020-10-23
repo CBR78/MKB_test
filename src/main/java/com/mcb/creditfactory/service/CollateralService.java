@@ -1,48 +1,55 @@
 package com.mcb.creditfactory.service;
 
-import com.mcb.creditfactory.dto.CarDto;
-import com.mcb.creditfactory.dto.Collateral;
-import com.mcb.creditfactory.service.car.CarService;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import com.mcb.creditfactory.dto.CollateralDto;
+import com.mcb.creditfactory.external.ExternalApproveService;
+import com.mcb.creditfactory.model.Collateral;
+import com.mcb.creditfactory.repository.CollateralRepository;
 
-// TODO: reimplement this
 @Service
 public class CollateralService {
     @Autowired
-    private CarService carService;
+    private ExternalApproveService approveService;
 
-    @SuppressWarnings("ConstantConditions")
-    public Long saveCollateral(Collateral object) {
-        if (!(object instanceof CarDto)) {
-            throw new IllegalArgumentException();
-        }
-
-        CarDto car = (CarDto) object;
-        boolean approved = carService.approve(car);
+    @Autowired
+    private CollateralRepository collateralRepository;
+    
+    public Long saveCollateral(CollateralDto dto) {
+        boolean approved = approveService.approve(dto) == 0;
         if (!approved) {
             return null;
         }
-
-        return Optional.of(car)
-                .map(carService::fromDto)
-                .map(carService::save)
-                .map(carService::getId)
+        return Optional.of(dto)
+                .map( optDto -> fromDto(optDto))
+                .map( collateral -> collateralRepository.save(collateral))
+                .map( collateral -> collateral.getId())
                 .orElse(null);
     }
 
-    public Collateral getInfo(Collateral object) {
-        if (!(object instanceof CarDto)) {
-            throw new IllegalArgumentException();
-        }
-
-        return Optional.of((CarDto) object)
-                .map(carService::fromDto)
-                .map(carService::getId)
-                .flatMap(carService::load)
-                .map(carService::toDTO)
+    public CollateralDto getInfo(CollateralDto dto) {
+        return Optional.of(dto)
+                .map( optDto -> fromDto(optDto))
+                .map( collateral -> collateral.getId())
+                .flatMap( id -> collateralRepository.findById(id))
+                .map( collateral -> toDTO(collateral))
                 .orElse(null);
+    }
+    
+    private Collateral fromDto(CollateralDto dto) {
+        return new Collateral(
+                dto.getId(), 
+                dto.getCollateralType(), 
+                dto.getYearOfIssue());
+    }
+
+    private CollateralDto toDTO(Collateral collateral) {
+        return new CollateralDto(
+                collateral.getId(), 
+                collateral.getCollateralType(),
+                collateral.getYearOfIssue());
     }
 }

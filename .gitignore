@@ -1,3 +1,10 @@
+# custom, Vladimir Malzam, for Eclipse
+/target/
+/bin/
+/.settings/
+
+/.project
+/.classpath
 
 # Created by https://www.gitignore.io/api/java,jetbrains
 # Edit at https://www.gitignore.io/?templates=java,jetbrains
