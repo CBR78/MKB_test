@@ -11,9 +11,14 @@ import com.mcb.creditfactory.dto.CollateralDto;
 public class ExternalApproveService {
     public int approve(CollateralDto dto) {
         Short year = dto.getYearOfIssue();
-        LocalDate date = LocalDate.now(); // исправить - Вытягивается из Last ASSESS
-        // Для автомобилей дата оценки не используется, поэтому всегда берем текущую
-        BigDecimal value = null; // исправить - Вытягивается из Last ASSESS
+        LocalDate date = LocalDate.now(); // исправить - извлекается из Last_ASSESS
+        
+        // В коде был комментарий "Для автомобилей дата оценки не используется, поэтому
+        // всегда берем текущую" - согласовать и добавить в CollateralType
+        // boolean-маркеры необходимости видов проверок, реализовать из использование в
+        // классе проверки
+        
+        BigDecimal value = null; // исправить - извлекается из Last_Last ASSESS
 
         Short minYear = dto.getCollateralType().getMinYearOfIssue();
         LocalDate minDate = dto.getCollateralType().getMinAssessedDate();
