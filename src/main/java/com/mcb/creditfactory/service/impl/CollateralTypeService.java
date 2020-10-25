@@ -1,41 +1,28 @@
-package com.mcb.creditfactory.service;
+package com.mcb.creditfactory.service.impl;
 
 import java.util.List;
-
-import javax.persistence.EntityManager;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.mcb.creditfactory.model.CollateralType;
 import com.mcb.creditfactory.repository.CollateralTypeRepository;
+import com.mcb.creditfactory.service.BaseService;
 
 @Service
-public class CollateralTypeService {
+public class CollateralTypeService implements BaseService<CollateralType> {
     private CollateralTypeRepository collateralTypeRepository;
-    private EntityManager entityManager;
 
     @Autowired
-    public CollateralTypeService(CollateralTypeRepository collateralTypeRepository,
-            EntityManager entityManager) {
+    public CollateralTypeService(CollateralTypeRepository collateralTypeRepository) {
         this.collateralTypeRepository = collateralTypeRepository;
-        this.entityManager = entityManager;
     }
 
     public CollateralType create(CollateralType collateralType) {
         return collateralTypeRepository.save(collateralType);
     }
 
-    public CollateralType update(CollateralType collateralType) {
-        return collateralTypeRepository.save(collateralType);
-    }
-
-    public void delete(CollateralType collateralType) {
-        collateralTypeRepository.delete(collateralType);
-    }
-
     public List<CollateralType> getAll() {
-        entityManager.clear();
         return collateralTypeRepository.findAll();
     }
 
@@ -43,7 +30,8 @@ public class CollateralTypeService {
         return collateralTypeRepository.findById(id).get();
     }
 
-    public boolean existsById(long id) {
+    @Override
+    public boolean existsById(Long id) {
         return collateralTypeRepository.existsById(id);
     }
 }

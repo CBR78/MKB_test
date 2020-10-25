@@ -1,0 +1,404 @@
+{
+	"info": {
+		"_postman_id": "3f33c6ce-864a-4b88-83c5-520163fa1c94",
+		"name": "MKB_new",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "1 add TypeCar",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"typeName\": \"car\",\r\n    \"minYearOfIssue\": 2000,\r\n    \"minAssessedDate\": \"2017-10-01\",\r\n    \"minAssessedValue\": 1000000\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/collateral_type",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"collateral_type"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "2 add TypePlane",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"typeName\": \"plane\",\r\n    \"minYearOfIssue\": 1991,\r\n    \"minAssessedDate\": \"2017-10-01\",\r\n    \"minAssessedValue\": 230000000\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/collateral_type",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"collateral_type"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "3 addCarCorrect",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"collateralTypeId\": 1,\r\n  \"yearOfIssue\": 2001,\r\n  \"lastAssessDTO\": {\r\n    \"assessedDate\": \"2017-10-02\",\r\n    \"assessedValue\": 1000000\r\n  }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/collateral",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"collateral"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "4 addPlaneCorrect",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"collateralTypeId\": 2,\r\n  \"yearOfIssue\": 1992,\r\n  \"lastAssessDTO\": {\r\n    \"assessedDate\": \"2017-10-02\",\r\n    \"assessedValue\": 230000000\r\n  }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/collateral",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"collateral"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "5 addNewAssess (plane)",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"collateral\": {\r\n    \"id\": 2\r\n  },\r\n  \"assessedDate\": \"2017-11-01\",\r\n  \"assessedValue\": 230000001\r\n  \r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/assess",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"assess"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "6 addOldAssess (plane)",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"collateral\": {\r\n    \"id\": 2\r\n  },\r\n  \"assessedDate\": \"2017-09-01\",\r\n  \"assessedValue\": 230000001\r\n  \r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/assess",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"assess"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "7 CollateralById=2",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/collateral/2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"collateral",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "allCollateralTypes",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/collateral_type",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"collateral_type"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "allCollateral",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/collateral/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"collateral",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "allAssess",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/assess",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"assess"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "addCollateralTypeNull",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n \r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/collateral_type",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"collateral_type"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "addCollateralNull",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/collateral",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"collateral"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "addCollateralAssessNull",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"collateralTypeId\": 1,\r\n  \"yearOfIssue\": 2001,\r\n  \"lastAssessDTO\": {\r\n  }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/collateral",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"collateral"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "addTypeNull",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/collateral_type",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"collateral_type"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

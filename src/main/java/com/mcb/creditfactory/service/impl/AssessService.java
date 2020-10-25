@@ -1,48 +1,43 @@
-package com.mcb.creditfactory.service;
+package com.mcb.creditfactory.service.impl;
 
 import java.util.List;
-
-import javax.persistence.EntityManager;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.mcb.creditfactory.model.Assess;
 import com.mcb.creditfactory.repository.AssessRepository;
+import com.mcb.creditfactory.service.BaseService;
 
 @Service
-public class AssessService {
+public class AssessService implements BaseService<Assess> {
     private AssessRepository assessRepository;
-    private EntityManager entityManager;
 
     @Autowired
-    public AssessService(AssessRepository assessRepository, EntityManager entityManager) {
+    public AssessService(AssessRepository assessRepository) {
         this.assessRepository = assessRepository;
-        this.entityManager = entityManager;
     }
 
     public Assess create(Assess assess) {
         return assessRepository.save(assess);
     }
 
-    public Assess update(Assess assess) {
-        return assessRepository.save(assess);
-    }
-
-    public void delete(Assess assess) {
-        assessRepository.delete(assess);
-    }
-
     public List<Assess> getAll() {
-        entityManager.clear();
         return assessRepository.findAll();
     }
 
-    public Assess getById(long id) {
+    public Assess getById(Long id) {
         return assessRepository.findById(id).get();
     }
 
-    public boolean existsById(long id) {
+    @Override
+    public boolean existsById(Long id) {
         return assessRepository.existsById(id);
+    }
+
+    public Assess getLastAssess(Long collateralId) {
+        // LocalDate maxDate = assessRepository.maxDate(collateralId);
+        // Assess assess = assessRepository.getAssess(collateralId, maxDate);
+        return assessRepository.getLastAssess(collateralId);
     }
 }
