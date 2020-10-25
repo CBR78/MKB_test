@@ -5,40 +5,39 @@ import java.time.LocalDate;
 
 import org.springframework.stereotype.Service;
 
-import com.mcb.creditfactory.dto.CollateralDto;
+import com.mcb.creditfactory.model.Collateral;
 
 @Service
 public class ExternalApproveService {
-    public int approve(CollateralDto dto) {
-        Short year = dto.getYearOfIssue();
-        LocalDate date = LocalDate.now(); // исправить - извлекается из Last_ASSESS
-        
-        // В коде был комментарий "Для автомобилей дата оценки не используется, поэтому
-        // всегда берем текущую" - согласовать и добавить в CollateralType
-        // boolean-маркеры необходимости видов проверок, реализовать из использование в
-        // классе проверки
-        
-        BigDecimal value = null; // исправить - извлекается из Last_Last ASSESS
+    public boolean approve(Collateral collateral) {
+        Short minYear = collateral.getCollateralType().getMinYearOfIssue();
+        LocalDate minDate = collateral.getCollateralType().getMinAssessedDate();
+        BigDecimal minValue = collateral.getCollateralType().getMinAssessedValue();
 
-        Short minYear = dto.getCollateralType().getMinYearOfIssue();
-        LocalDate minDate = dto.getCollateralType().getMinAssessedDate();
-        BigDecimal minValue = dto.getCollateralType().getMinAssessedValue();
+        Short year = collateral.getYearOfIssue();
+        LocalDate date = collateral.getLastAssess().getAssessedDate();
+        BigDecimal value = collateral.getLastAssess().getAssessedValue();
 
         if (year == null || date == null || value == null || minYear == null || minDate == null
                 || minValue == null) {
-            return -1;
+            return false;
         }
 
         if (year < minYear) {
-            return -10;
+            return false;
         }
         if (date.isBefore(minDate)) {
-            return -11;
+            return false;
         }
         if (value.compareTo(minValue) < 0) {
-            return -12;
+            return false;
         }
 
-        return 0;
+        return true;
     }
+
+    // В коде был комментарий "Для автомобилей дата оценки не используется, поэтому
+    // всегда берем текущую" - согласовать и добавить в CollateralType
+    // boolean-маркеры необходимости видов проверок, реализовать из использование в
+    // классе проверки
 }

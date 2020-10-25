@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "CAR")
+@Table(name = "COLLATERAL_TYPE")
 public class CollateralType {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
