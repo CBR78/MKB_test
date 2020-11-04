@@ -24,5 +24,5 @@ public class CollateralAndAssessDto {
 
     @NotNull(message = "Request must include a CollateralAndAssessDto lastAssessDTO.")
     @Valid
-    private LastAssessDto lastAssessDTO;
+    private AssessDto lastAssessDTO;
 }

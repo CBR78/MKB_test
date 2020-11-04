@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class LastAssessDto {
+public class AssessDto {
     private Long id;
 
     @NotNull(message = "Request must include a LastAssessDto assessedDate.")

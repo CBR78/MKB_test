@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.mcb.creditfactory.dto.CollateralAndAssessDto;
-import com.mcb.creditfactory.dto.LastAssessDto;
+import com.mcb.creditfactory.dto.AssessDto;
 import com.mcb.creditfactory.external.ExternalApproveService;
 import com.mcb.creditfactory.model.Assess;
 import com.mcb.creditfactory.model.Collateral;
@@ -82,12 +82,12 @@ public class CollateralService implements BaseService<Collateral> {
     }
 
     private Assess assessFromDto(CollateralAndAssessDto collateralDto) {
-        LastAssessDto lastAssessDTO = collateralDto.getLastAssessDTO();
+        AssessDto lastAssessDTO = collateralDto.getLastAssessDTO();
         return new Assess(null, null, lastAssessDTO.getAssessedDate(), lastAssessDTO.getAssessedValue());
     }
 
     private CollateralAndAssessDto toDto(Collateral collateral, Assess assess) {
-        LastAssessDto lastAssessDTO = new LastAssessDto(assess.getId(), assess.getAssessedDate(),
+        AssessDto lastAssessDTO = new AssessDto(assess.getId(), assess.getAssessedDate(),
                 assess.getAssessedValue());
 
         return new CollateralAndAssessDto(collateral.getId(), collateral.getCollateralType().getId(),
